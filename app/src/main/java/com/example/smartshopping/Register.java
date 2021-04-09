@@ -22,10 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Register extends AppCompatActivity {
     Button hesap_olustur;
     EditText isim,tel,sifre;
+    LinkedList<HashMap<String,Object>> linkedList=new LinkedList<HashMap<String,Object>>();
     public ProgressDialog progressDialog;
 
     @Override
@@ -83,6 +85,7 @@ public class Register extends AppCompatActivity {
                     kullanici_verisi.put("phone",phone);
                     kullanici_verisi.put("password",pass);
                     kullanici_verisi.put("name",name);
+                    linkedList.add(kullanici_verisi);
 
                     ref.child("Users").child(phone).updateChildren(kullanici_verisi)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {

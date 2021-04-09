@@ -1,18 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Admin">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/select_image"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/select_product_image"></ImageView>
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="149dp"
-        android:layout_marginTop="199dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/product_name"
+        android:layout_below="@id/select_image"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="20dp"
+        android:padding="25dp"
+        android:hint="Ürün İsmi"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/input"></EditText>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_des"
+        android:layout_below="@id/product_name"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="8dp"
+        android:padding="25dp"
+        android:hint="Ürün Açıklaması"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/input"></EditText>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_price"
+        android:layout_below="@id/product_des"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="8dp"
+        android:padding="25dp"
+        android:hint="Ürün Fiyatı"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/input"></EditText>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_product"
+        android:layout_below="@+id/product_price"
+        android:text="Ürün Ekle"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:padding="17dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/buton"></Button>
+
+</RelativeLayout>

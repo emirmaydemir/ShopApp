@@ -118,7 +118,7 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this,"Admin girişi başarılı!!!",Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
 
-                                Intent intent=new Intent(Login.this,Admin.class);
+                                Intent intent=new Intent(Login.this,AdminKategori.class);
                                 startActivity(intent);
                             }
                             else if(parentname.equals("Users")){
@@ -126,6 +126,7 @@ public class Login extends AppCompatActivity {
                                 progressDialog.dismiss();
 
                                 Intent intent=new Intent(Login.this,Home.class);
+                                Pre.onlineUser=data;
                                 startActivity(intent);
                             }
                         }

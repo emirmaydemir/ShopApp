@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             Intent intent=new Intent(MainActivity.this,Home.class);
+                            Pre.onlineUser=data;
                             startActivity(intent);
                         }
                         else{

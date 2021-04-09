@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings">
+    
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/close_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kapat"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_alignParentStart="true"
+                    android:textStyle="bold"></TextView>
+                <TextView
+                    android:id="@+id/update_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Güncelle"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_marginRight="15dp"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold"></TextView>
+                
+            </RelativeLayout>
+            
+        </androidx.appcompat.widget.Toolbar>
+        
+    </com.google.android.material.appbar.AppBarLayout>
+
+    
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_below="@+id/app_bar"
+        android:src="@drawable/profile"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
+    </de.hdodenhof.circleimageview.CircleImageView>
+    <TextView
+        android:id="@+id/image_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resmi güncelle"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginRight="15dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"></TextView>
+    <EditText
+        android:id="@+id/set_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_change"
+        android:hint="Telefon Numarası"
+        android:layout_margin="17dp"
+        android:padding="17dp"></EditText>
+    <EditText
+        android:id="@+id/set_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_phone"
+        android:hint="İsim"
+        android:layout_margin="17dp"
+        android:padding="17dp"></EditText>
+    <EditText
+        android:id="@+id/set_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_name"
+        android:hint="Adres"
+        android:layout_margin="17dp"
+        android:padding="17dp"></EditText>
+
+
+    
+
+</RelativeLayout>
