@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import com.example.smartshopping.Model.Users;
 import com.example.smartshopping.Pre.Pre;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +36,8 @@ public class Login extends AppCompatActivity {
     public ProgressDialog progressDialog;
     public String parentname="Users";
     public CheckBox hatirla;
+    public FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +48,10 @@ public class Login extends AppCompatActivity {
         admin=findViewById(R.id.admin_panel_link);
         notadmin=findViewById(R.id.not_admin_panel_link);
         progressDialog=new ProgressDialog(this);
-
         hatirla=findViewById(R.id.remember);
         Paper.init(this);
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously();
 
         grsbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +81,11 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
 
     public void kullaniciGirisi(){
         String phone=tel.getText().toString();
@@ -114,6 +127,12 @@ public class Login extends AppCompatActivity {
 
                     if(data.getPhone().equals(phone)){
                         if(data.getPassword().equals(pass)){
+                            mAuth.signInAnonymously().addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                }
+                            });
                             if(parentname.equals("Admins")){
                                 Toast.makeText(Login.this,"Admin girişi başarılı!!!",Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();

@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import io.paperdb.Paper;
 
+
+
 public class MainActivity extends AppCompatActivity {
     Button girisbtn,kayitbtn;
     public ProgressDialog progressDialog;
@@ -31,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         kayitbtn=findViewById(R.id.main_join_now_btn);
         girisbtn=findViewById(R.id.main_login_btn);
         progressDialog=new ProgressDialog(this);
-
         Paper.init(this);
 
         girisbtn.setOnClickListener(new View.OnClickListener() {

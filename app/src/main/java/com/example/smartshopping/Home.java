@@ -20,6 +20,8 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +47,7 @@ import java.util.Stack;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
+
 
 
 
@@ -74,8 +77,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent=new Intent(Home.this,Basket.class);
+                startActivity(intent);
             }
         });
 
@@ -200,7 +203,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (id == R.id.nav_cart)
         {
-
+            Intent intent=new Intent(Home.this,Basket.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_orders)
         {
@@ -226,7 +230,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         else if (id == R.id.nav_logout)
         {
             Paper.book().destroy();
-
             Intent intent = new Intent(Home.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

@@ -108,6 +108,7 @@ public class Settings extends AppCompatActivity {
             userMap.put("name",nametxt.getText().toString());
             userMap.put("address",addresstxt.getText().toString());
             userMap.put("phoneOrder",phonetxt.getText().toString());
+            Pre.onlineUser.setName(nametxt.getText().toString());
             databaseReference.child(Pre.onlineUser.getPhone()).updateChildren(userMap);
 
             Intent intent=new Intent(Settings.this,Home.class);
@@ -179,6 +180,7 @@ public class Settings extends AppCompatActivity {
                         userMap.put("address",addresstxt.getText().toString());
                         userMap.put("phoneOrder",phonetxt.getText().toString());
                         userMap.put("image",myUrl);
+                        Pre.onlineUser.setName(nametxt.getText().toString());
                         databaseReference.child(Pre.onlineUser.getPhone()).updateChildren(userMap);
 
                         progressDialog.dismiss();

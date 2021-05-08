@@ -11,10 +11,10 @@
     <ImageView
         android:id="@+id/register_applogo"
         android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:src="@drawable/applogo"
+        android:layout_height="250dp"
+        android:src="@drawable/shopsmart"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="50dp"
         ></ImageView>
 
     <EditText
