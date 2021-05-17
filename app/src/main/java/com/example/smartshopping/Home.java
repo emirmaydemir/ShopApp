@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,11 +57,17 @@ import io.paperdb.Paper;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public Button searchbtn;
+    EditText editText;
+    public String searchin="";
+    public String cat_name="";
+    RecyclerView searchlist;
     private AppBarConfiguration mAppBarConfiguration;
     private DatabaseReference ProductsRef;
     private RecyclerView recyclerView;
     public static Stack<Products> stack=new Stack<Products>();
     RecyclerView.LayoutManager layoutManager;
+    GridLayoutManager gridLayoutManager;
     DrawerLayout drawer;
 
     @Override
@@ -65,6 +75,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ProductsRef=FirebaseDatabase.getInstance().getReference().child("Products");
+        searchbtn=findViewById(R.id.search_btn);
+        if (getIntent().getExtras()!=null) {
+            cat_name = getIntent().getStringExtra("categoryy");
+            searchin="99999999999999999999";
+        }
+        editText=findViewById(R.id.search_product_name);
+        searchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchin=editText.getText().toString();
+                onStart();
+            }
+        });
 
         Paper.init(this);
 
@@ -102,8 +125,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         recyclerView = findViewById(R.id.rec_menu);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        gridLayoutManager = new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+
+
 /*
         ProductsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -122,41 +148,113 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 */
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseRecyclerOptions<Products> options=new FirebaseRecyclerOptions.Builder<Products>()
-                .setQuery(ProductsRef,Products.class).build();
+         if(searchin.equals("99999999999999999999") && !cat_name.equals("") && !cat_name.equals("every")){
+            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Products");
+            FirebaseRecyclerOptions<Products>options=new FirebaseRecyclerOptions.Builder<Products>()
+                    .setQuery(ref.orderByChild("category").equalTo(cat_name),Products.class).build();
 
-        FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter=new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i, @NonNull Products products) {
-                productViewHolder.ProductName.setText(products.getPname());
-                productViewHolder.ProductDescription.setText(products.getDescription());
-                productViewHolder.ProductPrice.setText("Price = "+products.getPrice()+ "$");
-                Picasso.get().load(products.getImage()).into(productViewHolder.ProductImage);
+            FirebaseRecyclerAdapter<Products,ProductViewHolder>adapter=new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i, @NonNull Products products) {
+                    productViewHolder.ProductName.setText(products.getPname());
+                    productViewHolder.ProductDescription.setText(products.getDescription());
+                    productViewHolder.ProductPrice.setText("Price = "+products.getPrice()+ "$");
+                    Picasso.get().load(products.getImage()).into(productViewHolder.ProductImage);
 
-                productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(Home.this,Details.class);
-                        intent.putExtra("pid",products.getPid());
-                        startActivity(intent);
-                    }
-                });
-            }
+                    productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(Home.this,Details.class);
+                            intent.putExtra("pid",products.getPid());
+                            startActivity(intent);
+                        }
+                    });
+                }
 
-            @NonNull
-            @Override
-            public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_layout,parent,false);
-                ProductViewHolder productViewHolder=new ProductViewHolder(view);
-                return productViewHolder;
-            }
-        };
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
+                @NonNull
+                @Override
+                public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_layout, parent, false);
+                    ProductViewHolder holder = new ProductViewHolder(view);
+                    return holder;
+                }
+            };
+            recyclerView.setAdapter(adapter);
+            adapter.startListening();
+        }
+        else if(searchin.equals("") || cat_name.equals("every")) {
+            FirebaseRecyclerOptions<Products> options = new FirebaseRecyclerOptions.Builder<Products>()
+                    .setQuery(ProductsRef, Products.class).build();
 
+            FirebaseRecyclerAdapter<Products, ProductViewHolder> adapter = new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i, @NonNull Products products) {
+                    productViewHolder.ProductName.setText(products.getPname());
+                    productViewHolder.ProductDescription.setText(products.getDescription());
+                    productViewHolder.ProductPrice.setText("Price = " + products.getPrice() + "$");
+                    Picasso.get().load(products.getImage()).into(productViewHolder.ProductImage);
+
+                    productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Home.this, Details.class);
+                            intent.putExtra("pid", products.getPid());
+                            startActivity(intent);
+                        }
+                    });
+                }
+
+                @NonNull
+                @Override
+                public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_layout, parent, false);
+                    ProductViewHolder productViewHolder = new ProductViewHolder(view);
+                    return productViewHolder;
+                }
+            };
+            recyclerView.setAdapter(adapter);
+            adapter.startListening();
+            cat_name="";
+        }
+
+        else{
+            DatabaseReference reference=FirebaseDatabase.getInstance().getReference().child("Products");
+            FirebaseRecyclerOptions<Products>options=new FirebaseRecyclerOptions.Builder<Products>()
+                    .setQuery(reference.orderByChild("pname").startAt(searchin).endAt(searchin+"\uf8ff"),Products.class).build();
+
+            FirebaseRecyclerAdapter<Products,ProductViewHolder>adapter=new FirebaseRecyclerAdapter<Products, ProductViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i, @NonNull Products products) {
+                    productViewHolder.ProductName.setText(products.getPname());
+                    productViewHolder.ProductDescription.setText(products.getDescription());
+                    productViewHolder.ProductPrice.setText("Price = "+products.getPrice()+ "$");
+                    Picasso.get().load(products.getImage()).into(productViewHolder.ProductImage);
+
+                    productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(Home.this,Details.class);
+                            intent.putExtra("pid",products.getPid());
+                            startActivity(intent);
+                        }
+                    });
+                }
+
+                @NonNull
+                @Override
+                public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item_layout, parent, false);
+                    ProductViewHolder holder = new ProductViewHolder(view);
+                    return holder;
+                }
+            };
+            recyclerView.setAdapter(adapter);
+            adapter.startListening();
+        }
 
     }
 
@@ -212,6 +310,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         else if (id == R.id.nav_category)
         {
+            Intent intent=new Intent(Home.this,CategoryList.class);
+            startActivity(intent);
               /*
             if(!stack.empty()) {
                 System.out.println(stack.pop().getPname());

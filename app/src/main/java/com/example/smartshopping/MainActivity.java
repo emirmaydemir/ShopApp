@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         girisbtn=findViewById(R.id.main_login_btn);
         progressDialog=new ProgressDialog(this);
         Paper.init(this);
-
+        System.out.println("hahahaa");
         girisbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
